@@ -1,20 +1,42 @@
 import { Console } from '@woowacourse/mission-utils';
-import { INPUT, ERROR } from './Constants/Message.js';
+import { INPUT } from './Constants/Message.js';
+import { validateInputBlank, validateInputOverlap, validateWorkerNameLength } from './Validation.js';
 
 class App {
   getWorkingDate = async () => {
     const input = await Console.readLineAsync(INPUT.date);
-    return input.trim();
+
+    validateInputBlank(input);
+    return input;
   };
 
   getWeekdayWorker = async () => {
     const input = await Console.readLineAsync(INPUT.weekdayWorker);
-    return input.trim();
+
+    validateInputBlank(input);
+
+    const weekdayWorker = input.split(',').map((nickname) => {
+      validateWorkerNameLength(nickname);
+      return nickname;
+    });
+
+    validateInputOverlap(weekdayWorker);
+
+    return weekdayWorker;
   };
 
   getHolidayWorker = async () => {
     const input = await Console.readLineAsync(INPUT.holidayWorker);
-    return input.trim();
+    validateInputBlank(input);
+
+    const holidayWorker = input.split(',').map((nickname) => {
+      validateWorkerNameLength(nickname);
+      return nickname;
+    });
+
+    validateInputOverlap(holidayWorker);
+
+    return holidayWorker;
   };
 
   async run() {
