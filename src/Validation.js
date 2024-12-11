@@ -1,7 +1,22 @@
 import { ERROR } from './Constants/Message.js';
 
+const DAY_REGEX = /월화수목금토/;
+const NUMBER_REGEX = /[1-9]\d*$/;
+
 const validateInputBlank = (input) => {
   if (input === null || input === '') {
+    throw new Error(ERROR.invalidInput);
+  }
+};
+
+const validateInputDay = (input) => {
+  if (DAY_REGEX.test(input) !== true) {
+    throw new Error(ERROR.invalidInput);
+  }
+};
+
+const validateInputNumber = (input) => {
+  if (NUMBER_REGEX.test(input) !== true) {
     throw new Error(ERROR.invalidInput);
   }
 };
@@ -18,4 +33,17 @@ const validateWorkerNameLength = (input) => {
   }
 };
 
-export { validateInputBlank, validateInputOverlap, validateWorkerNameLength };
+const validateWorkerNumber = (input) => {
+  if (input.length < 5 || input.length > 35) {
+    throw new Error(ERROR.invalidInput);
+  }
+};
+
+export {
+  validateInputDay,
+  validateInputNumber,
+  validateInputBlank,
+  validateInputOverlap,
+  validateWorkerNameLength,
+  validateWorkerNumber,
+};

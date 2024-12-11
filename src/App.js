@@ -1,6 +1,11 @@
 import { Console } from '@woowacourse/mission-utils';
 import { INPUT } from './Constants/Message.js';
-import { validateInputBlank, validateInputOverlap, validateWorkerNameLength } from './Validation.js';
+import {
+  validateInputBlank,
+  validateInputOverlap,
+  validateWorkerNameLength,
+  validateWorkerNumber,
+} from './Validation.js';
 
 class App {
   getWorkingDate = async () => {
@@ -38,6 +43,9 @@ class App {
 
         validateInputOverlap(weekdayWorker);
         validateInputOverlap(holidayWorker);
+
+        validateWorkerNumber(weekdayWorker);
+        validateWorkerNumber(holidayWorker);
 
         return weekdayWorker, holidayWorker;
       } catch (err) {
