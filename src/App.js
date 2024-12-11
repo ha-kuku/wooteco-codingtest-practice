@@ -4,50 +4,51 @@ import { validateInputBlank, validateInputOverlap, validateWorkerNameLength } fr
 
 class App {
   getWorkingDate = async () => {
-    const input = await Console.readLineAsync(INPUT.date);
+    while (true) {
+      try {
+        const input = await Console.readLineAsync(INPUT.date);
 
-    validateInputBlank(input);
-    return input;
+        validateInputBlank(input);
+
+        const [month, day] = input.split(',');
+        return [Number(month), day.trim()];
+      } catch (err) {
+        Console.print(err.message);
+      }
+    }
   };
 
-  getWeekdayWorker = async () => {
-    const input = await Console.readLineAsync(INPUT.weekdayWorker);
+  getWorker = async () => {
+    while (true) {
+      try {
+        const weekdayWorkerInput = await Console.readLineAsync(INPUT.weekdayWorker);
+        const holidayWorkerInput = await Console.readLineAsync(INPUT.holidayWorker);
 
-    validateInputBlank(input);
+        validateInputBlank(weekdayWorkerInput, holidayWorkerInput);
 
-    const weekdayWorker = input.split(',').map((nickname) => {
-      validateWorkerNameLength(nickname);
-      return nickname;
-    });
+        const weekdayWorker = weekdayWorkerInput.split(',').map((weeknickname) => {
+          validateWorkerNameLength(weeknickname);
+          return weeknickname;
+        });
 
-    validateInputOverlap(weekdayWorker);
+        const holidayWorker = holidayWorkerInput.split(',').map((holinickname) => {
+          validateWorkerNameLength(holinickname);
+          return holinickname;
+        });
 
-    return weekdayWorker;
-  };
+        validateInputOverlap(weekdayWorker);
+        validateInputOverlap(holidayWorker);
 
-  getHolidayWorker = async () => {
-    const input = await Console.readLineAsync(INPUT.holidayWorker);
-    validateInputBlank(input);
-
-    const holidayWorker = input.split(',').map((nickname) => {
-      validateWorkerNameLength(nickname);
-      return nickname;
-    });
-
-    validateInputOverlap(holidayWorker);
-
-    return holidayWorker;
+        return weekdayWorker, holidayWorker;
+      } catch (err) {
+        Console.print(err.message);
+      }
+    }
   };
 
   async run() {
-    try {
-      await this.getWorkingDate();
-      await this.getWeekdayWorker();
-      await this.getHolidayWorker();
-    } catch (err) {
-      Console.print(err.message);
-      throw err;
-    }
+    await this.getWorkingDate();
+    await this.getWorker();
   }
 }
 
