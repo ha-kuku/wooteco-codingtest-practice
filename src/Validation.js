@@ -1,6 +1,6 @@
 import { ERROR } from './Constants/Message.js';
 
-const DAY_REGEX = /월화수목금토/;
+const DAY_REGEX = /월화수목금토일/;
 const NUMBER_REGEX = /[1-9]\d*$/;
 
 const validateInputBlank = (input) => {
@@ -15,8 +15,8 @@ const validateInputDay = (input) => {
   }
 };
 
-const validateInputNumber = (input) => {
-  if (NUMBER_REGEX.test(input) !== true) {
+const validateInputzero = (input) => {
+  if (input.includes(0) === true) {
     throw new Error(ERROR.invalidInput);
   }
 };
@@ -41,7 +41,7 @@ const validateWorkerNumber = (input) => {
 
 export {
   validateInputDay,
-  validateInputNumber,
+  validateInputzero,
   validateInputBlank,
   validateInputOverlap,
   validateWorkerNameLength,
